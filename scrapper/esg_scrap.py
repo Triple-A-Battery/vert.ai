@@ -11,7 +11,7 @@ headers = {
 }
 
 # Open the CSV file in append mode and create a CSV writer object
-with open('esg.csv', 'a', newline='', encoding='utf-8') as csvfile:
+with open('./data/esg.csv', 'a', newline='', encoding='utf-8') as csvfile:
     csvwriter = csv.writer(csvfile)
     
     # Loop through the desired range of pages
