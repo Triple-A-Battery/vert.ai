@@ -2,6 +2,7 @@
 	import StockListing from '$lib/components/StockListing.svelte';
 	import Chart from 'chart.js/auto';
 	import { onMount } from 'svelte';
+	import Radial from '$lib/components/Radial.svelte';
 
 	export let data;
 
@@ -42,6 +43,8 @@
 		const filteredHistory = history.filter((item) => item.company === selectedCompany);
 		tickerData = (await getTickerData(selectedTicker))[0];
 		console.log(tickerData);
+
+		UN = await (await fetch('http://na.tripe.one:7777/environment/' + tickerData.country)).json();
 
 		if (chart) {
 			chart.destroy(); // Destroy the previous chart instance
@@ -87,6 +90,8 @@
 		});
 	}
 
+	let currentListing = {};
+
 	async function handleStock(event) {
 		listings[listings.findIndex((obj) => obj.company === selectedName)].selected = false;
 		selectedName = event.detail.company;
@@ -94,6 +99,9 @@
 		selectedESG = event.detail.ESG_ranking;
 		listings[listings.findIndex((obj) => obj.company === selectedName)].selected = true;
 		selectedTicker = history.filter((obj) => obj.company === selectedName)[0].ticker;
+
+		currentListing = event.detail;
+		console.log(currentListing);
 
 		tickerData = await getTickerData(selectedTicker);
 
@@ -110,6 +118,8 @@
 	onMount(() => {
 		updateChart(selectedName); // Initial chart rendering
 	});
+
+	let UN;
 </script>
 
 <div class="mt-14">
@@ -153,31 +163,32 @@
 					</div>
 				</div>
 				<div class="flex flex-col gap-2">
+					<!-- <div -->
+					<!-- 	class="bg-accent bg-opacity-15 border-2 border-primary rounded-xl h-10 flex justify-between text-lg font-semibold p-1" -->
+					<!-- > -->
+					<!-- 	 -->
+					<!-- </div> -->
 					<div
-						class="bg-accent bg-opacity-15 border-2 border-primary rounded-xl h-10 flex justify-between text-lg font-semibold p-1"
+						class="bg-accent bg-opacity-15 border-2 border-primary rounded-xl h-full justify-center items-center text-lg font-semibold p-1"
 					>
-						Gauge
+						<p>UN SDG rating</p>
+						<div class="">
+							<Radial progress={UN}></Radial>
+						</div>
+
+						<h2>{UN}</h2>
 					</div>
 					<div
-						class="bg-accent bg-opacity-15 border-2 border-primary rounded-xl h-full flex justify-center items-center text-lg font-semibold p-1"
+						class="bg-accent bg-opacity-15 border-2 border-primary rounded-xl h-full flex flex-col justify-between text-lg font-semibold p-4"
 					>
-						<div class="flex flex-col items-center justify-center relative">
-							<div class="w-40 h-40 rounded-full flex items-center justify-center">
-								<div class="gauge-background w-24 h-24"></div>
-								<div
-									class="w-1 h-20 bg-primary"
-									style="transform: rotate({angle - 90}deg); transform-origin: bottom;"
-								></div>
-							</div>
-							<input
-								bind:value={angle}
-								type="range"
-								min="0"
-								max={maxAngle}
-								on:input={updateAngle}
-								class="w-36 accent-primary"
-							/>
-						</div>
+						{#if currentListing}
+							{#each Object.entries(currentListing) as [key, value]}
+								<div class="flex flex-row justify-between">
+									<p>{key}:</p>
+									<p>{value}</p>
+								</div>
+							{/each}
+						{/if}
 					</div>
 				</div>
 			</div>

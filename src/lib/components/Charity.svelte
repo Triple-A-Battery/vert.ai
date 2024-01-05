@@ -7,7 +7,7 @@
 
 <div class="p-2">
 	<div
-		class="bg-accent bg-opacity-15 p-4 flex flex-col rounded-2xl border-primary border-2 relative"
+		class="bg-green-50 bg-opacity-15 p-4 flex flex-col rounded-2xl border-primary border-2 relative text-white"
 	>
 		<div class="text-2xl font-semibold">{name}</div>
 		<div>{description}</div>
