@@ -9,7 +9,7 @@
 					playground for your climate investment
 				</p>
 				<button class="btn btn-primary bg-accent border-primary text-primary p-1 text-sm"
-					>Get Started</button
+					><a href="/investments">Get Started</a></button
 				>
 			</div>
 		</div>
