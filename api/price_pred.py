@@ -1,6 +1,7 @@
 from keras.models import load_model
 import joblib
 import pandas as pd
+import random
 
 model = load_model('model.h5')
 scaler = joblib.load('minmax_scaler.pkl')
@@ -13,8 +14,8 @@ def generate(open, high, low, volume, days):
         cur_open = float(model.predict(
             scaler.transform(
                 pd.DataFrame(
-                    [[cur_open, high + (cur_open - open),
-                      low + (cur_open - open), volume]],
+                    [[cur_open, high + random.random() * (cur_open - open),
+                      low + random.random() * (cur_open - open), volume]],
                     columns=["Open", "High", "Low", "Volume"]
                 )
             )
