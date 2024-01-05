@@ -1,5 +1,7 @@
 <script lang="ts">
 	import StockListing from '$lib/components/StockListing.svelte';
+	import Chart from 'chart.js/auto';
+	import { onMount } from 'svelte';
 
 	export let data;
 
@@ -16,6 +18,61 @@
 		selectedESG = event.detail.ESG_ranking;
 		listings[listings.findIndex((obj) => obj.company === selectedName)].selected = true;
 	}
+
+	const getFuture = async (graphOpen, graphHigh, graphLow, graphVol) => {
+		const response = await fetch(
+			`http://na.tripe.one:7777/future?open=${graphOpen}&high=${graphHigh}&low=${graphLow}&volume=${graphVol}&days=14`,
+			{
+				headers: {
+					accept: 'application/json'
+				}
+			}
+		);
+		return response.json();
+	};
+
+	onMount(async () => {
+		const graph = document.getElementById('graph');
+		let history = await getFuture(17924.240234, 18002.380859, 17916.910156, 82160000);
+
+		new Chart(graph, {
+			type: 'line',
+			data: {
+				labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+				datasets: [
+					{
+						label: 'Price History',
+						data: history,
+						borderWidth: 2,
+						backgroundColor: 'rgba(97, 80, 6, 0.2)',
+						borderColor: 'rgba(97, 80, 6, 1)'
+					}
+				]
+			},
+			options: {
+				maintainAspectRatio: false,
+				responsive: true,
+				onResize(chart, size) {},
+				scales: {
+					y: {
+						ticks: {
+							min: Math.min(...history) - 10,
+							max: Math.max(...history) + 10,
+							stepSize: 5
+						}
+					},
+					x: {
+						type: 'linear',
+						ticks: {
+							min: 1,
+							max: 14,
+							stepSize: 1
+						}
+					}
+				}
+			}
+		});
+	});
 </script>
 
 <div class="mt-14">
@@ -32,7 +89,11 @@
 				</div>
 			</div>
 
-			<div class="border-2 border-primary bg-accent bg-opacity-15 rounded-xl h-96"></div>
+			<div class="border-2 border-primary bg-accent bg-opacity-15 rounded-xl">
+				<div class="h-[40vh]">
+					<canvas id="graph"></canvas>
+				</div>
+			</div>
 
 			<div class="grid grid-cols-2 gap-2">
 				<div class="flex flex-col gap-2">
@@ -78,6 +139,7 @@
 						ESG_ranking={listing.esg_rating}
 						price_BUY={listing.open}
 						investment={listing.investment_check}
+						peRatio={listing.pe_ratio}
 						selected={listing.selected}
 					/>
 					<div class="border-t-2 border-primary border-opacity-15"></div>
