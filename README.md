@@ -31,9 +31,11 @@ VERT.AI makes you a smarter investor who is conscious about the environment, not
 3. Typescript
 4. TailwindCSS
 5. Python
-6. Tensorflow
-7. Scikit Learn
-8. Pandas
+6. Beautifulsoup4
+7. Tensorflow
+8. Scikit Learn
+9. Pandas
+10. Numpy
 
 ## Model
 
