@@ -6,6 +6,7 @@ from supabase import create_client, Client
 
 import ai_model
 import price_pred
+import stock_info
 
 supabase: Client = create_client(
     "https://eobauqgsolxvyamddpjl.supabase.co",
@@ -31,25 +32,34 @@ async def read_root():
 
 
 @app.get("/check_stock")
-async def generate(open: float, esg: float, pe: float, roe: float, days: int = 1, stock: str = None):
+async def generate(
+    open: float, esg: float, pe: float, roe: float, days: int = 1, stock: str = None
+):
     if stock:
-        response = supabase.table("STOCKS").select(
-            "*").eq("stock_name", stock).execute()
+        response = (
+            supabase.table("STOCKS").select("*").eq("stock_name", stock).execute()
+        )
 
     if not stock or not response[1][0]["investment_check"]:
-        response = bool(ai_model.generate_data(
-            pd.DataFrame(
-                [[
-                    days, open, esg, pe, roe
-                ]],
-                columns=[
-                    'horizon (days)', 'price_BUY', 'ESG_ranking', 'PE_ratio', 'roe_ratio'
-                ]
-            )
-        )[0] == 1)
+        response = bool(
+            ai_model.generate_data(
+                pd.DataFrame(
+                    [[days, open, esg, pe, roe]],
+                    columns=[
+                        "horizon (days)",
+                        "price_BUY",
+                        "ESG_ranking",
+                        "PE_ratio",
+                        "roe_ratio",
+                    ],
+                )
+            )[0]
+            == 1
+        )
         if stock:
             supabase.table("STOCKS").update({"investment_check": response}).eq(
-                "stock_name", stock).execute()
+                "stock_name", stock
+            ).execute()
     return response
 
 
@@ -83,11 +93,19 @@ async def charities(page: str = "1"):
 
     d = []
     for c in hits:
-        d.append({
-            "name": c["_source"]["orgname"],
-            "desc": c["_source"]["projsummary"],
-            "themes": c["_source"]["allthemes"],
-            "url": c["_source"]["url"],
-            "progress": c["_source"]["percent_funded"]
-        })
+        d.append(
+            {
+                "name": c["_source"]["orgname"],
+                "desc": c["_source"]["projsummary"],
+                "themes": c["_source"]["allthemes"],
+                "url": c["_source"]["url"],
+                "progress": c["_source"]["percent_funded"],
+            }
+        )
     return d
+
+
+@app.get("/fetch_info/{ticker}")
+async def fetch_info(ticker: str):
+    data = stock_info.fetch_data(ticker)
+    return data
