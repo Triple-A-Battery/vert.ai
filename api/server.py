@@ -41,5 +41,5 @@ async def generate(open: float, esg: float, pe: float, roe: float, days: int = 1
 
 
 @app.get("/future")
-async def generate(open: float, high: float, low: float, volume: int, days=7):
+async def generate(open: float, high: float, low: float, volume: int, days: int = 7):
     return price_pred.generate(open, high, low, volume, days)
