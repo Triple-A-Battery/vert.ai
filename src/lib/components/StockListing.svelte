@@ -43,7 +43,10 @@
 		</div>
 	</button>
 {:else}
-	<button class="grid grid-cols-5 p-2 hover:bg-accent hover:bg-opacity-20" on:click={handleClick}>
+	<button
+		class="grid grid-cols-5 p-2 hover:bg-accent hover:bg-opacity-20 w-full"
+		on:click={handleClick}
+	>
 		<div class="flex flex-col col-span-1 text-left w-full">
 			<div class="text-lg">{company}</div>
 			<div class="p-0.5 text-sm">{stock_name}</div>
