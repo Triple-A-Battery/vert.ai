@@ -1,3 +1,4 @@
+import requests
 from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
 from fastapi import FastAPI
@@ -55,3 +56,38 @@ async def generate(open: float, esg: float, pe: float, roe: float, days: int = 1
 @app.get("/future")
 async def generate(open: float, high: float, low: float, volume: int, days: int = 7):
     return price_pred.generate(open, high, low, volume, days)
+
+
+@app.get("/charities")
+async def charities(page: str = "1"):
+    url = "https://www.globalgiving.org/dy/v2/search/query"
+    headers = {
+        "accept": "application/json, text/javascript, */*; q=0.01",
+        "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+    }
+
+    data = {
+        "size": "60",
+        "nextPage": page,
+        "sortField": "sortorder",
+        "keywords": "",
+        "selectedLocations": "00india",
+        "currencyInfo": "%5Bobject+Object%5D",
+        "recognitionNames": "%5Bobject+Object%5D",
+        "recognitionDescs": "%5Bobject+Object%5D",
+    }
+
+    response = requests.post(url, headers=headers, data=data)
+    data = response.json()
+    hits = data["hits"]["hits"]
+
+    d = []
+    for c in hits:
+        d.append({
+            "name": c["_source"]["orgname"],
+            "desc": c["_source"]["projsummary"],
+            "themes": c["_source"]["allthemes"],
+            "url": c["_source"]["url"],
+            "progress": c["_source"]["percent_funded"]
+        })
+    return d
