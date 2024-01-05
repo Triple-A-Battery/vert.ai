@@ -31,7 +31,7 @@
 					<div class="text-green-900">
 						<div class="font-bold text-lg">ESG:&nbsp;</div>
 					</div>
-					<div class="text-lg text-green-900">{ESG_ranking}</div>
+					<div class="text-lg bg-green-400">{ESG_ranking}</div>
 				{:else}
 					<div>
 						<div class="font-bold text-lg text-red-900">ESG:&nbsp;</div>
@@ -58,7 +58,7 @@
 					<div class="text-green-900">
 						<div class="font-bold text-lg">ESG:&nbsp;</div>
 					</div>
-					<div class="text-lg text-green-900">{ESG_ranking}</div>
+					<div class="text-lg bg-green-400">{ESG_ranking}</div>
 				{:else}
 					<div>
 						<div class="font-bold text-lg text-red-900">ESG:&nbsp;</div>

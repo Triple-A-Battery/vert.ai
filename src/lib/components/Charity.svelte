@@ -7,7 +7,7 @@
 
 <div class="p-2">
 	<div
-		class="bg-accent bg-opacity-15 p-4 flex flex-col rounded-2xl border-primary border-2 relative"
+		class=" text-green-100 bg-opacity-15 p-4 flex flex-col rounded-2xl border-primary border-2 relative"
 	>
 		<div class="text-2xl font-semibold">{name}</div>
 		<div>{description}</div>
@@ -17,7 +17,7 @@
 			<a href={link}>Read More</a>
 		</div>
 		<progress
-			class="progress w-[75%] absolute h-full w-full top-0 left-0 z-[-1]"
+			class="progress w-[75%] absolute h-full w-full top-0 left-0 z-[-1] bg-primary opacity-50"
 			value={progress}
 			max="100"
 		></progress>
