@@ -105,12 +105,12 @@ async def charities(page: str = "1"):
     return d
 
 
-<<<<<<< HEAD
 @app.get("/fetch_info/{ticker}")
 async def fetch_info(ticker: str):
     data = stock_info.fetch_data(ticker)
     return data
-=======
+
+
 @app.get("/news")
 async def news():
     url = "https://newsapi.org/v2/everything"
@@ -118,9 +118,8 @@ async def news():
         "q": "green finance",
         "from": "2023-12-05",
         "sortBy": "publishedAt",
-        "apiKey": "f63ff11703ac44e4aef7305ca4a4f887"
+        "apiKey": "f63ff11703ac44e4aef7305ca4a4f887",
     }
 
     response = requests.get(url, params=params).json()["articles"]
     return response
->>>>>>> 1d2561b8a52f6b1a5bc5de966c551f1e70ef2489
