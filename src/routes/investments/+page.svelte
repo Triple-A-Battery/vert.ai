@@ -171,12 +171,12 @@
 					<div
 						class="bg-accent bg-opacity-15 border-2 border-primary rounded-xl h-full justify-center items-center text-lg font-semibold p-1"
 					>
-						<p>UN SDG rating</p>
+						<p class="w-full text-center">UN SDG rating</p>
 						<div class="">
 							<Radial progress={UN}></Radial>
 						</div>
 
-						<h2>{UN}</h2>
+						<h2 class="w-full text-center text-2xl">{Math.round(UN * 100) / 100} %</h2>
 					</div>
 					<div
 						class="bg-accent bg-opacity-15 border-2 border-primary rounded-xl h-full flex flex-col justify-between text-lg font-semibold p-4"

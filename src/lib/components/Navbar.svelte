@@ -6,6 +6,7 @@
 		<a class="btn btn-ghost text-text text-xl" href="/">VERT.AI</a>
 	</div>
 	<div class="flex-none text-text font-semibold gap-4 mr-4">
+		<a href="/news" class="hover:bg-accent hover:text-primary p-1 rounded-xl">News</a>
 		<a href="/investments" class="hover:bg-accent hover:text-primary p-1 rounded-xl">Investments</a>
 		<a href="/green-charities" class="hover:bg-accent hover:text-primary p-1 rounded-xl"
 			>Green Charities</a
