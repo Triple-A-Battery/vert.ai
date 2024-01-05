@@ -91,3 +91,17 @@ async def charities(page: str = "1"):
             "progress": c["_source"]["percent_funded"]
         })
     return d
+
+
+@app.get("/news")
+async def news():
+    url = "https://newsapi.org/v2/everything"
+    params = {
+        "q": "green finance",
+        "from": "2023-12-05",
+        "sortBy": "publishedAt",
+        "apiKey": "f63ff11703ac44e4aef7305ca4a4f887"
+    }
+
+    response = requests.get(url, params=params).json()["articles"]
+    return response
