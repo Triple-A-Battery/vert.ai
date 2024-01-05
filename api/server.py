@@ -1,18 +1,8 @@
-from typing import Union
-from pprint import pprint
-import numpy as np
 import pandas as pd
 from fastapi import FastAPI
-
-from ai_model import generate_data
-
-from sklearn.preprocessing import StandardScaler
-from sklearn.preprocessing import MinMaxScaler
-import keras
-from keras.regularizers import l1_l2
-
-import os
 from supabase import create_client, Client
+
+import ai_model
 
 supabase: Client = create_client(
     "https://eobauqgsolxvyamddpjl.supabase.co",
@@ -26,15 +16,24 @@ async def read_root():
     return None
 
 
-@app.get("/check_supabase")
-async def check_supabase():
-    return "data"
+@app.get("/check_stock")
+async def generate(open: float, esg: float, pe: float, roe: float, days: int = 1, stock: str = None):
+    if stock:
+        response = supabase.table("STOCKS").select(
+            "*").eq("stock_name", stock).execute()
 
-
-@app.get("/generate")
-async def generate():
-    response, count = supabase.table("STOCKS").select("investment_check").execute()
-    if response[1][0]["investment_check"] is None:
-        data = pd.read_csv("./training_data.csv")
-        response = generate_data(data)
+    if not stock or not response[1][0]["investment_check"]:
+        response = bool(ai_model.generate_data(
+            pd.DataFrame(
+                [[
+                    days, open, esg, pe, roe
+                ]],
+                columns=[
+                    'horizon (days)', 'price_BUY', 'ESG_ranking', 'PE_ratio', 'roe_ratio'
+                ]
+            )
+        )[0] == 1)
+        if stock:
+            supabase.table("STOCKS").update({"investment_check": response}).eq(
+                "stock_name", stock).execute()
     return response
