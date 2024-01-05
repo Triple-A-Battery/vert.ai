@@ -15,6 +15,9 @@ const config = {
 			}
 		}
 	},
+	daisyui: {
+		darkTheme: false
+	},
 	plugins: [require('daisyui')]
 };
 
