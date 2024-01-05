@@ -1,9 +1,9 @@
-Company Name,Ticker Symbol
+company,ticker
 Lloyds Metals,LLOYDSME.NS
 Esab India,ESABINDIA.NS
 Coal India,COALINDIA.NS
 Fine Organic,FINEORG.NS
-CG Power & Indu.,CGPOWER:IN 
+CG Power & Indu.,CGPOWER.NS
 TCS,TCS
 Easy Trip Plann.,EASEMYTRIP.NS
 Page Industries,PAGEIND.NS
@@ -21,12 +21,12 @@ Sonata Software,SONATSOFTW.NS
 ITC,ITC.NS
 Coromandel Inter,COROMANDEL.NS
 Mazagon Dock,MAZDOCK.NS
-Tanla Platforms,TANLA
-LTIMindtree,LTIM
-Supreme Petroch.,SPLPETRO
-Seshasayee Paper,SESHAPAPER 
-Balaji Amines,BALAMINES
-eClerx Services,ECLERX
+Tanla Platforms,TANLA.NS
+LTIMindtree,LTIM.NS
+Supreme Petroch.,SPLPETRO.NS
+Seshasayee Paper,SESHAPAPER.NS 
+Balaji Amines,BALAMINES.NS
+eClerx Services,ECLERX.NS
 GHCL,GHCL.NS
 Solar Industries,SOLARINDS.NS
 Akzo Nobel,AKZA.AS
@@ -55,9 +55,9 @@ Deepak Nitrite,DEEPAKNTR.NS
 Gujarat Fluoroch,FLUOROCHEM.NS
 Schaeffler India,SCHAEFFLER.NS
 C.E. Info System,APMYINDIA
-Mphasis,MPHASIS
+Mphasis,MPHASIS.NS
 Triveni Turbine,TRITURBINE.NS
-JK Paper,JKPAPER
+JK Paper,JKPAPER.NS
 HCL Technologies,HCLTECH.NS
 Timken India,TIMKEN.NS
 Alkyl Amines,ALKYLAMINE.NS
