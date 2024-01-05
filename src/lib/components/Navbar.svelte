@@ -10,6 +10,6 @@
 		<a href="/green-charities" class="hover:bg-accent hover:text-primary p-1 rounded-xl"
 			>Green Charities</a
 		>
-		<a href="/" class="hover:bg-accent hover:text-primary p-1 rounded-xl">Playground</a>
+		<a href="/playground" class="hover:bg-accent hover:text-primary p-1 rounded-xl">Playground</a>
 	</div>
 </div>

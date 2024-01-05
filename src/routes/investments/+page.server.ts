@@ -1,9 +1,10 @@
 import { supabase } from '$lib/supabase';
 
 export async function load() {
-	const { data } = await supabase.from('STOCKS').select();
+	const { data: stocks } = await supabase.from('STOCKS').select();
+	const { data: history } = await supabase.from('HISTORY').select();
 	return {
-		STOCKS: data ?? []
+		STOCKS: stocks ?? [], HISTORY: history ?? []
 	};
 }
 

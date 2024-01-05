@@ -10,6 +10,7 @@
 	let selectedName = listings[0].company;
 	let selectedPrice = listings[0].open;
 	let selectedESG = listings[0].esg_rating;
+	listings[0].selected = true;
 
 	function handleStock(event) {
 		listings[listings.findIndex((obj) => obj.company === selectedName)].selected = false;
@@ -62,7 +63,6 @@
 						}
 					},
 					x: {
-						type: 'linear',
 						ticks: {
 							min: 1,
 							max: 14,
