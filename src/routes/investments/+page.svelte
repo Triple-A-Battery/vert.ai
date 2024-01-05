@@ -5,51 +5,64 @@
 
 	export let data;
 
-	let listings = data.STOCKS;
+	let history = data.HISTORY;
+
+	const listings = data.STOCKS.filter((obj1) =>
+		history.some((obj2) => obj2.company === obj1.company)
+	);
 
 	let selectedName = listings[0].company;
 	let selectedPrice = listings[0].open;
 	let selectedESG = listings[0].esg_rating;
+	let selectedTicker = history.filter((obj) => obj.company === selectedName)[0].ticker;
+	let tickerData = {};
+
 	listings[0].selected = true;
 
-	function handleStock(event) {
-		listings[listings.findIndex((obj) => obj.company === selectedName)].selected = false;
-		selectedName = event.detail.company;
-		selectedPrice = event.detail.price_BUY;
-		selectedESG = event.detail.ESG_ranking;
-		listings[listings.findIndex((obj) => obj.company === selectedName)].selected = true;
-	}
+	let chart; // Variable to hold the chart instance
 
-	const getFuture = async (graphOpen, graphHigh, graphLow, graphVol) => {
-		const response = await fetch(
-			`http://na.tripe.one:7777/future?open=${graphOpen}&high=${graphHigh}&low=${graphLow}&volume=${graphVol}&days=14`,
-			{
+	const getTickerData = async (ticker) => {
+		try {
+			const response = await fetch(`http://na.tripe.one:7777/fetch_info/${ticker}`, {
 				headers: {
 					accept: 'application/json'
 				}
+			});
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
 			}
-		);
-		return response.json();
+			return response.json();
+		} catch (error) {
+			console.error('Fetch error:', error);
+			return [];
+		}
 	};
 
-	onMount(async () => {
-		const graph = document.getElementById('graph');
-		let history = await getFuture(17924.240234, 18002.380859, 17916.910156, 82160000);
+	async function updateChart(selectedCompany) {
+		const filteredHistory = history.filter((item) => item.company === selectedCompany);
+		tickerData = (await getTickerData(selectedTicker))[0];
+		console.log(tickerData);
 
-		new Chart(graph, {
+		if (chart) {
+			chart.destroy(); // Destroy the previous chart instance
+		}
+
+		const graph = document.getElementById('graph');
+		chart = new Chart(graph, {
 			type: 'line',
 			data: {
-				labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+				labels: filteredHistory.map((item) => item.date), // Assuming 'date' is a property in history items
 				datasets: [
 					{
-						label: 'Price History',
-						data: history,
+						label: `Price History: ${selectedName}`,
+						data: filteredHistory.map((item) => item.open), // Replace 'price' with the correct property
 						borderWidth: 2,
 						backgroundColor: 'rgba(97, 80, 6, 0.2)',
 						borderColor: 'rgba(97, 80, 6, 1)'
 					}
 				]
 			},
+
 			options: {
 				maintainAspectRatio: false,
 				responsive: true,
@@ -57,8 +70,8 @@
 				scales: {
 					y: {
 						ticks: {
-							min: Math.min(...history) - 10,
-							max: Math.max(...history) + 10,
+							min: Math.min(...filteredHistory.map((item) => item.open)) - 10,
+							max: Math.max(...filteredHistory.map((item) => item.open)) + 10,
 							stepSize: 5
 						}
 					},
@@ -72,6 +85,30 @@
 				}
 			}
 		});
+	}
+
+	async function handleStock(event) {
+		listings[listings.findIndex((obj) => obj.company === selectedName)].selected = false;
+		selectedName = event.detail.company;
+		selectedPrice = event.detail.price_BUY;
+		selectedESG = event.detail.ESG_ranking;
+		listings[listings.findIndex((obj) => obj.company === selectedName)].selected = true;
+		selectedTicker = history.filter((obj) => obj.company === selectedName)[0].ticker;
+
+		tickerData = await getTickerData(selectedTicker);
+
+		updateChart(selectedName); // Call to update the chart
+	}
+
+	let angle = 0;
+	const maxAngle = 180;
+
+	function updateAngle(event) {
+		angle = event.target.value;
+	}
+
+	onMount(() => {
+		updateChart(selectedName); // Initial chart rendering
 	});
 </script>
 
@@ -98,19 +135,50 @@
 			<div class="grid grid-cols-2 gap-2">
 				<div class="flex flex-col gap-2">
 					<div
-						class="bg-accent bg-opacity-15 border-2 border-primary rounded-xl h-10 flex justify-between text-lg font-semibold p-1"
-					></div>
+						class="bg-accent bg-opacity-15 border-2 border-primary rounded-xl h-10 text-center text-xl font-bold p-2"
+					>
+						Information
+					</div>
 					<div
-						class="bg-accent bg-opacity-15 border-2 border-primary rounded-xl h-full flex justify-between text-lg font-semibold p-1"
-					></div>
+						class="bg-accent bg-opacity-15 border-2 border-primary rounded-xl h-full flex flex-col justify-between text-lg font-semibold p-4"
+					>
+						{#if tickerData}
+							{#each Object.entries(tickerData) as [key, value]}
+								<div class="flex flex-row justify-between">
+									<p>{key}:</p>
+									<p>{value}</p>
+								</div>
+							{/each}
+						{/if}
+					</div>
 				</div>
 				<div class="flex flex-col gap-2">
 					<div
 						class="bg-accent bg-opacity-15 border-2 border-primary rounded-xl h-10 flex justify-between text-lg font-semibold p-1"
-					></div>
+					>
+						Gauge
+					</div>
 					<div
-						class="bg-accent bg-opacity-15 border-2 border-primary rounded-xl h-full flex justify-between text-lg font-semibold p-1"
-					></div>
+						class="bg-accent bg-opacity-15 border-2 border-primary rounded-xl h-full flex justify-center items-center text-lg font-semibold p-1"
+					>
+						<div class="flex flex-col items-center justify-center relative">
+							<div class="w-40 h-40 rounded-full flex items-center justify-center">
+								<div class="gauge-background w-24 h-24"></div>
+								<div
+									class="w-1 h-20 bg-primary"
+									style="transform: rotate({angle - 90}deg); transform-origin: bottom;"
+								></div>
+							</div>
+							<input
+								bind:value={angle}
+								type="range"
+								min="0"
+								max={maxAngle}
+								on:input={updateAngle}
+								class="w-36 accent-primary"
+							/>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -123,6 +191,7 @@
 					<div class="text-background mr-2">
 						<i class="fa-solid fa-magnifying-glass"></i>
 					</div>
+					<div class="absolute bottom-0 left-0 gauge-background"></div>
 					<input
 						type="text"
 						placeholder="Search stocks"
@@ -148,3 +217,10 @@
 		</div>
 	</div>
 </div>
+
+<style>
+	.gauge-background {
+		@apply rounded-full;
+		background: conic-gradient(from 90deg at 50% 50%, red 0%, green 80%);
+	}
+</style>
