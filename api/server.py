@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from supabase import create_client, Client
 
 import ai_model
+import price_pred
 
 supabase: Client = create_client(
     "https://eobauqgsolxvyamddpjl.supabase.co",
@@ -37,3 +38,8 @@ async def generate(open: float, esg: float, pe: float, roe: float, days: int = 1
             supabase.table("STOCKS").update({"investment_check": response}).eq(
                 "stock_name", stock).execute()
     return response
+
+
+@app.get("/future")
+async def generate(open: float, high: float, low: float, volume: int, days=7):
+    return price_pred.generate(open, high, low, volume, days)
