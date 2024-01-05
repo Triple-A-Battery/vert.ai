@@ -13,7 +13,8 @@ def generate(open, high, low, volume, days):
         cur_open = float(model.predict(
             scaler.transform(
                 pd.DataFrame(
-                    [[cur_open, high, low, volume]],
+                    [[cur_open, high + (cur_open - open),
+                      low + (cur_open - open), volume]],
                     columns=["Open", "High", "Low", "Volume"]
                 )
             )
