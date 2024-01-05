@@ -119,8 +119,23 @@ async def news():
         "q": "green finance",
         "from": "2023-12-05",
         "sortBy": "publishedAt",
-        "apiKey": "f63ff11703ac44e4aef7305ca4a4f887"
+        "apiKey": "f63ff11703ac44e4aef7305ca4a4f887",
     }
 
     response = requests.get(url, params=params).json()["articles"]
     return response
+
+
+data = pd.read_csv('CountryWiseGoal1.csv')
+goal_columns = [col for col in data.columns if 'Goal' in col]
+for col in goal_columns:
+    data[col] = data[col].str.replace('%', '').astype(float)
+x_new = data.drop(['GeoAreaCode'], axis=1)
+
+x_new["Score"] = data[goal_columns].mean(axis=1)
+x_new.drop(goal_columns, inplace=True, axis=1)
+
+
+@app.get("/environment/{country}")
+async def environment(country: str):
+    return x_new.loc[x_new['GeoAreaName'] == country, 'Score'].iloc[0]
