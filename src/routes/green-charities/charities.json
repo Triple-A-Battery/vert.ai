@@ -1,0 +1,97 @@
+[
+	{
+		"name": "Amazon Conservation Team",
+		"description": "Partners with indigenous and local communities to protect tropical forests and reinforce traditional culture in the Amazon.",
+		"link": "https://www.amazonconservation.org/"
+	},
+	{
+		"name": "Nature Conservancy",
+		"description": "A global environmental nonprofit working to conserve lands and waters essential for life.",
+		"link": "https://www.nature.org/"
+	},
+	{
+		"name": "World Resources Institute (WRI)",
+		"description": "A global research organization focusing on climate, energy, food, forests, water, and cities and transport.",
+		"link": "https://www.wri.org/"
+	},
+	{
+		"name": "350.org",
+		"description": "International movement dedicated to ending the use of fossil fuels and transitioning to renewable energy.",
+		"link": "https://350.org/"
+	},
+	{
+		"name": "African Wildlife Foundation",
+		"description": "Focuses on protecting Africa's wildlife and wild lands, as well as empowering the people living alongside these spaces.",
+		"link": "https://www.awf.org/"
+	},
+	{
+		"name": "Alaska Conservation Foundation",
+		"description": "Supports the protection of Alaska's natural environment and diverse cultures.",
+		"link": "https://alaskaconservation.org/"
+	},
+	{
+		"name": "American Bird Conservancy",
+		"description": "Dedicated to the conservation of wild birds and their habitats throughout the Americas.",
+		"link": "https://abcbirds.org/"
+	},
+	{
+		"name": "American Forests",
+		"description": "The oldest national conservation organization in the U.S., committed to creating healthy and resilient forests.",
+		"link": "https://www.americanforests.org/"
+	},
+	{
+		"name": "American Rivers",
+		"description": "Protects wild rivers, restores damaged rivers, and conserves clean water.",
+		"link": "https://www.americanrivers.org/"
+	},
+	{
+		"name": "Environmental Defense Fund (EDF)",
+		"description": "A global nonprofit organization tackling climate change with innovative solutions.",
+		"link": "https://www.edf.org/"
+	},
+	{
+		"name": "World Wildlife Fund (WWF)",
+		"description": "Works to conserve nature and reduce threats to the diversity of life on Earth.",
+		"link": "https://www.worldwildlife.org/"
+	},
+	{
+		"name": "Oceana",
+		"description": "Dedicated to protecting the world's oceans with various campaigns against harmful practices.",
+		"link": "https://oceana.org/"
+	},
+	{
+		"name": "The Union of Concerned Scientists",
+		"description": "A non-profit science advocacy organization aiming to make the planet healthier and safer.",
+		"link": "https://www.ucsusa.org/"
+	},
+	{
+		"name": "The Rainforest Alliance",
+		"description": "Works globally to conserve biodiversity and transform land-use practices.",
+		"link": "https://www.rainforest-alliance.org/"
+	},
+	{
+		"name": "The Natural Resources Defense Council (NRDC)",
+		"description": "Focuses on protecting the planet through various environmental programs.",
+		"link": "https://www.nrdc.org/"
+	},
+	{
+		"name": "Trees for the Future",
+		"description": "Plants trees to revitalize soil and improve the livelihoods of impoverished farmers.",
+		"link": "https://trees.org/"
+	},
+	{
+		"name": "Defenders of Wildlife",
+		"description": "Aims to protect and restore endangered wildlife across North America and beyond.",
+		"link": "https://defenders.org/"
+	},
+	{
+		"name": "Sierra Club",
+		"description": "The largest grassroots environmental organization in the U.S., focused on protecting the planet.",
+		"link": "https://www.sierraclub.org/"
+	},
+	{
+		"name": "Global Footprint Network",
+		"description": "Helps organizations make sustainable ecological decisions regarding natural resource management.",
+		"link": "https://www.footprintnetwork.org/"
+	}
+]

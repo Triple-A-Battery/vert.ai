@@ -1,93 +1,21 @@
 <script lang="ts">
 	import StockListing from '$lib/components/StockListing.svelte';
 
-	let listings = [
-		{
-			company: 'BBY',
-			amount: 100,
-			price_BUY: 55.5518035889,
-			investment: 'BAD',
-			ESG_ranking: 12.0
-		},
-		{
-			company: 'BAC',
-			amount: 15000,
-			price_BUY: 18.6167488098,
-			investment: 'GOOD',
-			ESG_ranking: 26.3
-		},
-		{
-			company: 'AXP',
-			amount: 3000,
-			price_BUY: 59.8622970581,
-			investment: 'BAD',
-			ESG_ranking: 19.8
-		},
-		{
-			company: 'KSS',
-			amount: 20000,
-			price_BUY: 38.2167243958,
-			investment: 'BAD',
-			ESG_ranking: 6.0
-		},
-		{
-			company: 'AAPL',
-			amount: 500,
-			price_BUY: 120.5518035889,
-			investment: 'GOOD',
-			ESG_ranking: 32.5
-		},
-		{
-			company: 'GOOGL',
-			amount: 800,
-			price_BUY: 2800.6167488098,
-			investment: 'GOOD',
-			ESG_ranking: 45.2
-		},
-		{
-			company: 'TSLA',
-			amount: 300,
-			price_BUY: 900.8622970581,
-			investment: 'BAD',
-			ESG_ranking: 15.7
-		},
-		{
-			company: 'AMZN',
-			amount: 1200,
-			price_BUY: 3200.2167243958,
-			investment: 'GOOD',
-			ESG_ranking: 40.9
-		},
+	export let data;
 
-		{
-			company: 'BBY',
-			amount: 100,
-			price_BUY: 55.5518035889,
-			investment: 'BAD',
-			ESG_ranking: 12.0
-		},
-		{
-			company: 'BAC',
-			amount: 15000,
-			price_BUY: 18.6167488098,
-			investment: 'GOOD',
-			ESG_ranking: 26.3
-		},
-		{
-			company: 'AXP',
-			amount: 3000,
-			price_BUY: 59.8622970581,
-			investment: 'BAD',
-			ESG_ranking: 19.8
-		},
-		{
-			company: 'KSS',
-			amount: 20000,
-			price_BUY: 38.2167243958,
-			investment: 'BAD',
-			ESG_ranking: 6.0
-		}
-	];
+	let listings = data.STOCKS;
+
+	let selectedName = listings[0].company;
+	let selectedPrice = listings[0].open;
+	let selectedESG = listings[0].esg_rating;
+
+	function handleStock(event) {
+		listings[listings.findIndex((obj) => obj.company === selectedName)].selected = false;
+		selectedName = event.detail.company;
+		selectedPrice = event.detail.price_BUY;
+		selectedESG = event.detail.ESG_ranking;
+		listings[listings.findIndex((obj) => obj.company === selectedName)].selected = true;
+	}
 </script>
 
 <div class="mt-14">
@@ -97,10 +25,10 @@
 			<div
 				class="bg-accent bg-opacity-15 border-2 border-primary rounded-xl h-11 flex justify-between text-lg font-semibold p-1"
 			>
-				<div class="ml-4 mt-0.5">Name</div>
+				<div class="ml-4 mt-0.5">{selectedName}</div>
 				<div class="flex gap-4 mr-4 mt-0.5">
-					<div>Price</div>
-					<div>gre</div>
+					<div>${selectedPrice}</div>
+					<div>ESG: {selectedESG}</div>
 				</div>
 			</div>
 
@@ -112,7 +40,7 @@
 						class="bg-accent bg-opacity-15 border-2 border-primary rounded-xl h-10 flex justify-between text-lg font-semibold p-1"
 					></div>
 					<div
-						class="bg-accent bg-opacity-15 border-2 border-primary rounded-xl h-[16.7rem] flex justify-between text-lg font-semibold p-1"
+						class="bg-accent bg-opacity-15 border-2 border-primary rounded-xl h-full flex justify-between text-lg font-semibold p-1"
 					></div>
 				</div>
 				<div class="flex flex-col gap-2">
@@ -120,7 +48,7 @@
 						class="bg-accent bg-opacity-15 border-2 border-primary rounded-xl h-10 flex justify-between text-lg font-semibold p-1"
 					></div>
 					<div
-						class="bg-accent bg-opacity-15 border-2 border-primary rounded-xl h-[16.7rem] flex justify-between text-lg font-semibold p-1"
+						class="bg-accent bg-opacity-15 border-2 border-primary rounded-xl h-full flex justify-between text-lg font-semibold p-1"
 					></div>
 				</div>
 			</div>
@@ -144,11 +72,13 @@
 			<div class="border-2 border-primary overflow-y-auto bg-accent bg-opacity-15 rounded-xl">
 				{#each listings as listing}
 					<StockListing
+						on:click={handleStock}
 						company={listing.company}
-						amount={listing.amount}
-						ESG_ranking={listing.ESG_ranking}
-						price_BUY={listing.price_BUY}
-						investment={listing.investment}
+						stock_name={listing.stock_name}
+						ESG_ranking={listing.esg_rating}
+						price_BUY={listing.open}
+						investment={listing.investment_check}
+						selected={listing.selected}
 					/>
 					<div class="border-t-2 border-primary border-opacity-15"></div>
 				{/each}

@@ -10,7 +10,8 @@ const config = {
 				text: '#FDEBCE'
 			},
 			fontFamily: {
-				Lato: ['Lato', 'sans-serif']
+				sans: ['Gabriela'],
+				Lato: ['Gabriela', 'sans-serif']
 			}
 		}
 	},

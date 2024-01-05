@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { loggedIn } from '$lib/store';
 </script>
 
 <div class="navbar min-h-14 h-14 bg-background fixed">
@@ -8,11 +7,9 @@
 	</div>
 	<div class="flex-none text-text font-semibold gap-4 mr-4">
 		<a href="/investments" class="hover:bg-accent hover:text-primary p-1 rounded-xl">Investments</a>
-		<a href="/" class="hover:bg-accent hover:text-primary p-1 rounded-xl">Green Charities</a>
-		{#if $loggedIn}
-			<a href="/" class="hover:bg-accent hover:text-primary p-1 rounded-xl">Logout</a>
-		{:else}
-			<a href="/" class="hover:bg-accent hover:text-primary p-1 rounded-xl">Login</a>
-		{/if}
+		<a href="/green-charities" class="hover:bg-accent hover:text-primary p-1 rounded-xl"
+			>Green Charities</a
+		>
+		<a href="/" class="hover:bg-accent hover:text-primary p-1 rounded-xl">Playground</a>
 	</div>
 </div>
